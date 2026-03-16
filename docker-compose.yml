@@ -34,9 +34,10 @@ services:
     image: mongo:7
     container_name: mongo
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - mongo_data:/data/db
+  
 
   simulator:
     build:
@@ -49,17 +50,18 @@ services:
       - kafka
     restart: on-failure
 
-  # intel_processor:
-  #   build:
-  #     context: .
-  #     dockerfile: intel_processor/Dockerfile
-  #   container_name: intel_processor
-  #   environment:
-  #     KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-  #     MONGO_URI: mongodb://mongo:27017/
-  #   depends_on:
-  #     - kafka
-  #     - mongo
+  intel_processor:
+    build:
+      context: .
+      dockerfile: intel_processor/Dockerfile
+    container_name: intel_processor
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      MONGO_URI: mongodb://mongo:27017/
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - kafka
+      - mongo
 
 volumes:
   kafka_kraft:
