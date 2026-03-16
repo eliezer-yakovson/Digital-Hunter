@@ -16,12 +16,11 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT      
-      kAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER 
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      KAFKA_LOG_DIRS: /tmp/kraft-combined-KAFKA_LOG_DIRS    
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
     volumes:
       - kafka_kraft:/var/lib/kafka/data
-
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui  
