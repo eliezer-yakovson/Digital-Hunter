@@ -31,6 +31,37 @@ services:
       KAFKA_CLUSTERS_0_NAME: localhost    
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
 
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  simulator:
+    build:
+      context: ./students_part_1
+      dockerfile: Dockerfile
+    container_name: simulator
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+    restart: on-failure
+
+  # intel_processor:
+  #   build:
+  #     context: .
+  #     dockerfile: intel_processor/Dockerfile
+  #   container_name: intel_processor
+  #   environment:
+  #     KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  #     MONGO_URI: mongodb://mongo:27017/
+  #   depends_on:
+  #     - kafka
+  #     - mongo
+
 volumes:
   kafka_kraft:
-  
+  mongo_data:
